@@ -69,7 +69,8 @@ pub struct PrismaOpt {
     /// Enables the GraphQL playground
     #[structopt(long, short = "g")]
     pub enable_playground: bool,
-    #[structopt(env = "RUST_LOG_FORMAT")]
+    /// Set the log format.
+    #[structopt(long = "--log-format", env = "RUST_LOG_FORMAT")]
     log_format: Option<String>,
     #[structopt(subcommand)]
     pub subcommand: Option<Subcommand>,
