@@ -69,6 +69,8 @@ pub struct PrismaOpt {
     /// Enables the GraphQL playground
     #[structopt(long, short = "g")]
     pub enable_playground: bool,
+    #[structopt(env = "RUST_LOG_FORMAT")]
+    log_format: Option<String>,
     #[structopt(subcommand)]
     pub subcommand: Option<Subcommand>,
 }
@@ -139,6 +141,14 @@ impl PrismaOpt {
                 }
                 Ok(configuration)
             }
+        }
+    }
+
+    /// Extract the log format from on the RUST_LOG_FORMAT env var.
+    pub(crate) fn log_format(&self) -> crate::LogFormat {
+        match self.log_format.as_ref().map(|s| s.as_str()) {
+            Some("devel") => crate::LogFormat::Text,
+            _ => crate::LogFormat::Json,
         }
     }
 }
